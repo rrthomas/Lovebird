@@ -14,8 +14,6 @@ $(function() {
                     };
         var board = {elem: $('#board', svg.root()),
                      border: function () { return parseFloat(this.elem.css('stroke-width')); },
-                     // x: function () { return parseFloat(this.elem.attr('x')) + this.border(); },
-                     // y: function () { return parseFloat(this.elem.attr('y')) + this.border(); },
                      width: function () { return parseFloat(this.elem.attr('width')) - this.border(); },
                      height: function () { return parseFloat(this.elem.attr('height')) - this.border(); },
                      across: function () { return Math.floor(this.width() / piece.width()); },
@@ -71,7 +69,6 @@ $(function() {
                     }
                     var tm = tlist.getItem(0).matrix;
                     $.data(this, 'originalPosition', {x: tm.e, y: tm.f}); // Transformed coords
-                    //$.data(this, 'originalOffset', ui.offset); // FIXME: No need for this in jQueryUI 2
                 },
                 drag: function (event, ui) {
                     // Update transform manually, since top/left style props don't work on SVG
