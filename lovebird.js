@@ -1,5 +1,5 @@
 // Lovebird game
-// Reuben Thomas 8th May-2nd July 2012
+// (c) Reuben Thomas 2012
 
 $(function() {
     var svgOnLoad = function () {
@@ -32,16 +32,6 @@ $(function() {
                          }
                      }
                     };
-        var changeSquare = function (e, oldPos, newPos) {
-            var os = board.coordToSquare(oldPos);
-            var ns = board.coordToSquare(newPos);
-            if (os && ns && (os.x != ns.x || os.y != ns.y)) {
-                var letter = $('text', e).text();
-                if (letter == solution[ns.y][ns.x]) {
-                    console.log("done!");
-                }
-            }
-        };
         var pixelsToSVGCoords = function (svg, e, ui) {
             var CTM = e.getCTM();
             var p = svg.root().createSVGPoint();
@@ -64,7 +54,7 @@ $(function() {
                 dragstart: function (event, ui) {
                     $(this.parentElement).append(this); // Bring element to front
                     var tlist = this.transform.baseVal;
-                    if (tlist.numberOfItems == 0) {
+                    if (tlist.numberOfItems == 0) { // Add a transform if there isn't one
                         tlist.appendItem(svg.root().createSVGTransform());
                     }
                     var tm = tlist.getItem(0).matrix;
@@ -72,14 +62,18 @@ $(function() {
                 },
                 drag: function (event, ui) {
                     // Update transform manually, since top/left style props don't work on SVG
-                    var tlist = this.transform.baseVal;
                     var p = pixelsToSVGCoords(svg, this, ui);
-                    tlist.getItem(0).setTranslate(p.x, p.y);
+                    this.transform.baseVal.getItem(0).setTranslate(p.x, p.y);
                 },
                 dragstop: function (event, ui) {
-                    var origPos = $.data(this, 'originalPosition');
-                    var p = pixelsToSVGCoords(svg, this, ui);
-                    changeSquare(this, {x: origPos.x, y: origPos.y}, {x: p.x, y: p.y});
+                    var os = board.coordToSquare($.data(this, 'originalPosition'));
+                    var ns = board.coordToSquare(pixelsToSVGCoords(svg, this, ui));
+                    if (os && ns && (os.x != ns.x || os.y != ns.y)) {
+                        var letter = $('text', e).text();
+                        if (letter == solution[ns.y][ns.x]) {
+                            console.log("done!");
+                        }
+                    }
                 }
             }, 'g');
     }
