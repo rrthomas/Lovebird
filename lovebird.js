@@ -1,6 +1,11 @@
 // Lovebird game
 // (c) Reuben Thomas 2012
 
+// Amore Vivo Ex Solo
+// Avec Cordis Meae Ego
+// Vitae Acme Perdo Alas
+// Vapa In Vacuum Oro
+
 $(function() {
     var svgOnLoad = function () {
         var solution = [['A', 'V', 'E', 'S'],
